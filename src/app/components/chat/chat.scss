@@ -1,0 +1,13 @@
+.main-wrapper {
+    height: calc(100dvh - 68px - 48px);
+
+    .sidebar-wrapper {
+        width: 300px;
+    }
+
+    @media (width < 576px) {
+        .sidebar-wrapper {
+            width: 100%;
+        }
+    }
+}

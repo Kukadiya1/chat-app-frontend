@@ -1,0 +1,199 @@
+<div class="flex min-h-full flex-col justify-center lg:px-8 bg-zinc-100 p-4">
+    <div class="sign-up-form m-auto p-[20px] shadow-lg rounded-[20px] bg-white">
+        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+            <h2 class="mt-5 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
+                @if(activeTab == 'login'){
+                Login in to your account
+                }
+                @else {
+                Register your account
+                }
+            </h2>
+        </div>
+
+        <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+            @if(activeTab == 'login'){
+            <form class="space-y-2" [formGroup]="loginForm">
+                <div>
+                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <input type="email" name="email" id="email" placeholder="Enter Email"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            formControlName="email">
+                        @let loginEmail = loginForm.get('email');
+                        @if (loginEmail?.hasError('required') && loginEmail?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please Enter Email
+                        </span>
+                        }
+                        @if (loginEmail?.hasError('email') && loginEmail?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Enter Valid Email
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <input type="password" name="password" id="password" placeholder="Enter Password"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            formControlName="password">
+                        @let loginPassword = loginForm.get('password');
+                        @if (loginPassword?.hasError('required') && loginPassword?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please Enter Password
+                        </span>
+                        }
+                        @if (loginPassword?.hasError('minlength') && loginPassword?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Password must be at least 3 characters long
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <button
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                        [disabled]="!loginForm.valid" (click)="loginUser()">
+                        Login
+                    </button>
+                </div>
+            </form>
+            }
+            @else {
+            <form class="space-y-2" [formGroup]="registerForm">
+                <div>
+                    <label for="name" class="block text-sm/6 font-medium text-gray-900">Name
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <input type="text" name="name" id="name" placeholder="Enter Name" formControlName="name"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        @let nameControl = registerForm.get('name');
+                        @if (nameControl?.hasError('required') && nameControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please enter your name
+                        </span>
+                        }
+                        @if (nameControl?.hasError('minlength') && nameControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Name must be at least 3 characters long
+                        </span>
+                        }
+                        @if (nameControl?.hasError('maxlength') && nameControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Name cannot exceed 30 characters
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm/6 font-medium text-gray-900">Email
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <input type="email" name="email" id="email" placeholder="Enter Email" formControlName="email"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        @let emailControl = registerForm.get('email');
+                        @if (emailControl?.hasError('required') && emailControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please enter your email
+                        </span>
+                        }
+                        @if (emailControl?.hasError('email') && emailControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please enter a valid email
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label for="country" class="block text-sm/6 font-medium text-gray-900">Country
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <select name="country" id="country" formControlName="country"
+                            class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                            <option value="" disabled selected>Select a country</option>
+                            @for (item of countryList; track $index) {
+                            <option [value]="item">{{item}}</option>
+                            }
+                        </select>
+                        @let countryControl = registerForm.get('country');
+                        @if (countryControl?.hasError('required') && countryControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please select a country
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label for="address" class="block text-sm/6 font-medium text-gray-900">Address
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <textarea name="address" id="address" placeholder="Enter Address" formControlName="address"
+                            class="block w-full rounded-md bg-white px-3 py-2 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"></textarea>
+                        @let addressControl = registerForm.get('address');
+                        @if (addressControl?.hasError('required') && addressControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please enter your address
+                        </span>
+                        }
+                        @if (addressControl?.hasError('minlength') && addressControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Address must be at least 5 characters long
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm/6 font-medium text-gray-900">Password
+                        <sup><strong class="font-black text-red-500">*</strong></sup></label>
+                    <div class="mt-2">
+                        <input type="password" name="password" id="password" placeholder="Enter Password"
+                            formControlName="password"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        @let passwordControl = registerForm.get('password');
+                        @if (passwordControl?.hasError('required') && passwordControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Please enter your password
+                        </span>
+                        }
+                        @if (passwordControl?.hasError('minlength') && passwordControl?.touched) {
+                        <span class="text-red-500 text-[14px]">
+                            Password must be at least 3 characters long
+                        </span>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <button
+                        class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                        [disabled]="!registerForm.valid" (click)="registerUser()">
+                        Register
+                    </button>
+                </div>
+            </form>
+            }
+            @if(activeTab != 'login'){
+            <p class="mt-10 text-center text-sm/6 text-gray-500" (click)="activeTab = 'login'">
+                If you already have an account?
+                <a href="javascript:void(0)" class="font-semibold text-indigo-600 hover:text-indigo-500">Login</a>
+            </p>
+            }
+            @else {
+            <p class="mt-10 text-center text-sm/6 text-gray-500" (click)="activeTab = 'register'">
+                Create a new account?
+                <a href="javascript:void(0)" class="font-semibold text-indigo-600 hover:text-indigo-500">Register</a>
+            </p>
+            }
+        </div>
+    </div>
+</div>

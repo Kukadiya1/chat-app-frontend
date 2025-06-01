@@ -1,0 +1,70 @@
+<div class="main-wrapper">
+    <div class="flex h-full w-full">
+        @if((!selectedUser && windowWidth < 576) || windowWidth> 576){ <div class="border-r border-zinc-300 relative"
+                [ngClass]="{'sidebar-wrapper':userListShow,'w-[0px]':!userListShow}">
+                <div class="overflow-auto h-[100%]" [ngClass]="{'overflow-hidden':!userListShow}">
+                    @for (item of userList(); track item) {
+                    <div class="p-2 cursor-pointer rounded-[10px] m-[10px] relative pr-[20px]" [ngClass]="{
+                            'bg-[#615fff] text-white':selectedUser?._id == item._id,
+                            'bg-zinc-300 text-dark':selectedUser?._id != item._id
+                            }" (click)="selectedUser = item;socketInit()">
+                        {{item.name}}
+                        <div class="absolute right-0 top-1/2 translate-x-[-50%] translate-y-[-50%] w-[10px] h-[10px]  rounded-full"
+                            [ngClass]="getActiveStatus(item._id) ? 'bg-green-500':'bg-red-500'">
+                        </div>
+                    </div>
+                    }
+                    @empty {
+                    <div class="p-2 bg-zinc-300 rounded-[10px] m-[10px]">
+                        No User Available
+                    </div>
+                    }
+                </div>
+            </div>
+            }
+            @if((selectedUser && windowWidth < 576) || windowWidth> 576){ <div class="chat-wrapper w-full">
+                    @if(!selectedUser){
+                    <div class="h-full w-full text-2xl flex justify-center items-center">
+                        Please Select User For Start Chat
+                    </div>
+                    }
+                    @else {
+                    <div class="h-full w-full text-2xl relative pb-[60px]">
+                        @if(windowWidth < 576){ 
+                            <div
+                            class="absolute bg-zinc-100 flex items-center justify-center rounded-full w-[30px] h-[30px] top-[5px] left-[5px]" (click)="selectedUser = null">
+                            <i class="bi bi-x"></i>
+                    </div>
+                    }
+                    <div class="chat-message max-h-[100%] overflow-auto">
+                        @for (item of messages(); track $index) {
+                        <div class="max-w-[70%] w-[fit-content] p-[10px] mt-[5px] text-[1rem]" [ngClass]="{
+                             'bg-indigo-500 text-white m-[5px_5px_0_auto] rounded-[10px_10px_0px_10px]':item.sender_id == senderUserId,
+                             'bg-zinc-300 text-dark ml-[5px] rounded-[10px_10px_10px_0px]':item.sender_id != senderUserId,
+                         }">
+                            <div [ngClass]="{'text-end':item.sender_id == senderUserId}">
+                                {{item.message}}
+                            </div>
+                            <div class="text-[10px]! font-[500] text-end mt-[2px]">
+                                {{item.createdAt | date :'dd/MM/yyyy HH:mm a'}}
+                            </div>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="absolute flex gap-[10px] w-full p-[10px] bottom-0">
+                        <input type="text" placeholder="Enter Message"
+                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                            [formControl]="message">
+                        <button
+                            class="flex justify-center rounded-md bg-indigo-500 font-semibold text-white px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                            [disabled]="!message.value.trim().length ? true:false" (click)="sendMessage()">
+                            Send
+                        </button>
+                    </div>
+                </div>
+                }
+    </div>
+    }
+</div>
+</div>
