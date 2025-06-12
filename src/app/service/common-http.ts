@@ -7,7 +7,7 @@ import { CommonResponse, LoginFormRequest, RegisterFormRequest, UserList } from 
   providedIn: 'root'
 })
 export class CommonHttp {
-  baseUrl: string = 'http://localhost:3000/api/';
+  baseUrl: string = 'https://chat-app-backend-nh9c.onrender.com/api/';
   constructor(private http: HttpClient) { }
 
   register(reqBody: RegisterFormRequest): Observable<CommonResponse<{ token: string }>> {
