@@ -5,7 +5,7 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root'
 })
 export class Common {
-  serverBaseUrl: string = 'http://localhost:3000/api/'
+  serverBaseUrl: string = 'https://chat-app-backend-nh9c.onrender.com/api/'
   constructor(private toastr: ToastrService) { }
 
   showSuccess(type: 'success' | 'error' | 'warning', message: string) {
