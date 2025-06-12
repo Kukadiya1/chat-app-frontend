@@ -7,7 +7,7 @@ import { io, Socket as IOSocket } from "socket.io-client";
 })
 export class Socket {
   private socket!: IOSocket;
-  private readonly SOCKET_URL = 'http://localhost:3000'; // Replace with your backend URL
+  private readonly SOCKET_URL = 'https://chat-app-backend-nh9c.onrender.com'; // Replace with your backend URL
 
   constructor() { }
 
